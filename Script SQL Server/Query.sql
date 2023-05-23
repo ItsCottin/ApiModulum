@@ -1,0 +1,10 @@
+USE MODULUM
+
+CREATE TABLE Usuario (
+	Id INT PRIMARY KEY IDENTITY,
+	Nome VARCHAR(100) NOT NULL,
+	Login VARCHAR(20) NOT NULL,
+	Senha VARCHAR(200) NOT NULL,
+)
+
+-- INSERT INTO Usuario (Nome, Login, Senha) VALUES ('Rodrigo Cotting Fontes', 'RCF', '123456')
