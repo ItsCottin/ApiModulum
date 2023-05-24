@@ -9,6 +9,7 @@ public partial class ModulumContext : DbContext
 
     public ModulumContext()
     {
+        
     }
 
     public ModulumContext(DbContextOptions<ModulumContext> options)

@@ -2,6 +2,8 @@ using WebApiModulum.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using WebApiModulum.Handler;
+using WebApiModulum.Container;
+using WebApiModulum.UsuarioContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddDbContext<ModulumContext>(options=>{
 options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
 });
+
+builder.Services.AddScoped<IUsuarioContainer, UsuarioContainer>();
+
+var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(_jwtsettings);
 
 var app = builder.Build();
 

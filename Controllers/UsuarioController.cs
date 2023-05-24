@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApiModulum.Models;
 using Microsoft.AspNetCore.Authorization;
+using WebApiModulum.Container;
 
 namespace WebApiModulum.Controllers;
 
@@ -10,56 +10,38 @@ namespace WebApiModulum.Controllers;
 public class UsuarioController : ControllerBase
 {
 
-    private readonly ModulumContext _DBContext;
+    private readonly IUsuarioContainer _iUsuarioContainer;
 
-    public UsuarioController(ModulumContext dBContext)
+    public UsuarioController(IUsuarioContainer iUsuarioContainer)
     {
-        this._DBContext = dBContext;
+        this._iUsuarioContainer = iUsuarioContainer;
     }
 
     [HttpGet("GetAll")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var usuario = this._DBContext.Usuario.ToList();
+        var usuario = await this._iUsuarioContainer.GetAll();
         return Ok(usuario);
     }
 
     [HttpGet("Consultar/{id}")]
-    public IActionResult ConsultaUsuario(int id)
+    public async Task<IActionResult> ConsultaUsuarioAsync(int id)
     {
-        var usuario = this._DBContext.Usuario.FirstOrDefault(o=>o.Id==id);
+        var usuario = await this._iUsuarioContainer.ConsultaUsuario(id);
         return Ok(usuario);
     }
 
     [HttpDelete("Excluir/{id}")]
-    public IActionResult ExcluirUsuario(int id)
+    public async Task<IActionResult> ExcluirUsuarioAsync(int id)
     {
-        var usuario = this._DBContext.Usuario.FirstOrDefault(o=>o.Id==id);
-        if (usuario != null)
-        {
-            this._DBContext.Remove(usuario);
-            this._DBContext.SaveChanges();
-            return Ok(true);
-        }
+        var usuario = await this._iUsuarioContainer.ExcluirUsuario(id);
         return Ok(false);
     }
 
     [HttpPost("Incluir")]
-    public IActionResult IncluirUsuario([FromBody] Usuario _usuario)
+    public async Task<IActionResult> IncluirUsuarioAsync([FromBody] Usuario _usuario)
     {
-        var usuario = this._DBContext.Usuario.FirstOrDefault(o=>o.Id==_usuario.Id);
-        if (usuario != null)
-        {
-            usuario.Nome = _usuario.Nome;
-            usuario.Login = _usuario.Login;
-            usuario.Senha = _usuario.Senha;
-            this._DBContext.SaveChanges();
-        }
-        else
-        {
-            this._DBContext.Add(_usuario);
-            this._DBContext.SaveChanges();
-        }
+        var usuario = await this._iUsuarioContainer.IncluirUsuario(_usuario);
         return Ok(true);
     }
 }
