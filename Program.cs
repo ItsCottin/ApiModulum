@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Authentication;
 using WebApiModulum.Handler;
 using WebApiModulum.Container;
 using WebApiModulum.UsuarioContainer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +18,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// # Basic Autentificação
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = "BasicAuthentication";
+//   options.DefaultChallengeScheme = "BasicAuthentication";
+//})
+//.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+var _authkey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "BasicAuthentication";
-    options.DefaultChallengeScheme = "BasicAuthentication";
-})
-.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authkey)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 
 builder.Services.AddDbContext<ModulumContext>(options=>{
 options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
