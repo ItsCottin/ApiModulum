@@ -1,31 +1,42 @@
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using WebApiModulum.Models;
 using WebApiModulum.Container;
+using WebApiModulum.Entity;
 
 namespace WebApiModulum.UsuarioContainer;
 public class UsuarioContainer : IUsuarioContainer
 {
     private readonly ModulumContext _dBContext;
-    public UsuarioContainer (ModulumContext dBContext)
+    private readonly IMapper _imapper;
+    public UsuarioContainer (ModulumContext dBContext, IMapper imapper)
     {
         this._dBContext = dBContext;
+        this._imapper = imapper;
     }
 
-    public async Task<List<Usuario>> GetAll()
+    public async Task<List<UsuarioEntity>> GetAll()
     {
-        return await _dBContext.Usuario.ToListAsync();
+        List<UsuarioEntity> response = new List<UsuarioEntity>();
+        var usuario = await _dBContext.Usuario.ToListAsync();
+        if(usuario != null)
+        {
+            response = _imapper.Map<List<Usuario>, List<UsuarioEntity>>(usuario);
+        }
+        return response;
     }
 
-    public async Task<Usuario> ConsultaUsuario(int id)
+    public async Task<UsuarioEntity> ConsultaUsuario(int id)
     {
         var usuario = await _dBContext.Usuario.FindAsync(id);
         if (usuario != null)
         {
-            return usuario;
+            UsuarioEntity response = _imapper.Map<Usuario, UsuarioEntity>(usuario);
+            return response;
         }
         else 
         {
-            return new Usuario();
+            return new UsuarioEntity();
         }
     }
 
@@ -44,7 +55,7 @@ public class UsuarioContainer : IUsuarioContainer
         }
     }
 
-    public async Task<bool> IncluirUsuario(Usuario _usuario)
+    public async Task<bool> IncluirUsuario(UsuarioEntity _usuario)
     {
         var usuario = this._dBContext.Usuario.FirstOrDefault(o => o.Id == _usuario.Id);
         if (usuario != null)
@@ -56,7 +67,8 @@ public class UsuarioContainer : IUsuarioContainer
         }
         else
         {
-            this._dBContext.Add(_usuario);
+            Usuario _usu = _imapper.Map<UsuarioEntity, Usuario>(_usuario);
+            this._dBContext.Add(_usu);
             await this._dBContext.SaveChangesAsync();
         }
         return true;

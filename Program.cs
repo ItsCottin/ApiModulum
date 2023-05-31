@@ -1,13 +1,18 @@
 using WebApiModulum.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using WebApiModulum.Handler;
 using WebApiModulum.Container;
 using WebApiModulum.UsuarioContainer;
+using WebApiModulum.Entity;
+using WebApiModulum.Filters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
 using System.Text;
+using AutoMapper;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +26,7 @@ builder.Services.AddSwaggerGen();
 // # Basic Autentificação
 //builder.Services.AddAuthentication(options =>
 //{
-//    options.DefaultAuthenticateScheme = "BasicAuthentication";
+//   options.DefaultAuthenticateScheme = "BasicAuthentication";
 //   options.DefaultChallengeScheme = "BasicAuthentication";
 //})
 //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
@@ -45,12 +50,27 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 builder.Services.AddDbContext<ModulumContext>(options=>{
-options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
 });
 
 builder.Services.AddScoped<IUsuarioContainer, UsuarioContainer>();
+builder.Services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
+
+var automapper = new MapperConfiguration(item=> item.AddProfile
+    (
+        new AutoMapperHandler()
+    )
+);
+IMapper mapper = automapper.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+var _logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.AddSerilog(_logger);
 
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(_jwtsettings);

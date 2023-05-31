@@ -1,0 +1,12 @@
+ {
+    "const" :
+    [
+        {
+            "constring": "Server=tcp:modulum.database.windows.net,1433;Initial Catalog=MODULUM;Persist Security Info=False;User ID=masterrcf;Password=i1BREUu558;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        },
+        {
+            "constring": "Server=WK00966CQ;database=MODULUM;user=sa@modulum;password=M@sterk3y;Trusted_Connection=True;"
+        }
+    ]
+    
+ }
