@@ -1,15 +1,12 @@
 using WebApiModulum.Models;
+using WebApiModulum.Entity;
 
 namespace WebApiModulum.Container;
 
 public interface IUsuarioContainer
 {
-
-    Task<List<Usuario>> GetAll();
-
-    Task<Usuario> ConsultaUsuario(int id);
-
+    Task<List<UsuarioEntity>> GetAll();
+    Task<UsuarioEntity> ConsultaUsuario(int id);
     Task<bool> ExcluirUsuario(int id);
-
-    Task<bool> IncluirUsuario(Usuario _usuario);
+    Task<bool> IncluirUsuario(UsuarioEntity _usuario);
 }

@@ -19,6 +19,8 @@ public partial class ModulumContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; } = null!;
 
+    public virtual DbSet<RefreshToken> RefreshToken { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -29,6 +31,10 @@ public partial class ModulumContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(e => e.loginUsu);
+            });
         OnModelCreatingPartial(modelBuilder);
     }
 
