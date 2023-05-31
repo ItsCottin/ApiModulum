@@ -13,23 +13,32 @@ using Microsoft.AspNetCore.Http;
 using System.Text;
 using AutoMapper;
 using Serilog;
+using Swashbuckle.AspNetCore.ReDoc;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// # Basic Autentificação
-//builder.Services.AddAuthentication(options =>
-//{
-//   options.DefaultAuthenticateScheme = "BasicAuthentication";
-//   options.DefaultChallengeScheme = "BasicAuthentication";
-//})
-//.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc
+    ("v1",
+        new OpenApiInfo
+        {
+            Title = "Swagger Web API Modulum Documentacao",
+            Version = "v1",
+            Description = "Essa e a documentacao swagger da API Web Modulum utilizando swagger UI com interface do ReDoc",
+            Contact = new OpenApiContact
+            {
+                Name = "Rodrigo Cotting Fontes",
+                Email = "cottingfontes@hotmail.com"
+            }
+        }
+    );
+});
 
 var _authkey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
 builder.Services.AddAuthentication(options =>
@@ -79,7 +88,16 @@ var app = builder.Build();
 
 app.UseSwagger();
 
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Modulum");
+});
+
+app.UseReDoc(options =>
+{
+    options.DocumentTitle = "Swagger Web API Modulum Documentacao";
+    options.SpecUrl = "/swagger/v1/swagger.json";
+});
 
 app.UseHttpsRedirection();
 
