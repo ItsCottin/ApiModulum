@@ -19,6 +19,8 @@ public partial class ModulumContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; } = null!;
 
+    public virtual DbSet<Log> Log { get; set; } = null!;
+
     public virtual DbSet<RefreshToken> RefreshToken { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

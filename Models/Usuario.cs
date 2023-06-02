@@ -4,7 +4,7 @@ using System;
 
 namespace WebApiModulum.Models
 {
-    [Table("TBL_USUARIO")]
+    [Table("TBL_MODULUM_USUARIO")]
     public class Usuario
     {
         [Column("ID_USU")]
