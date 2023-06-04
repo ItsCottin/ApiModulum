@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WebApiModulum.Models
 {
-    [Table("TBL_MODULUM_REFRESH_TOKEN")]
+    [Table("TBL_REFRESH_TOKEN")]
     public partial class RefreshToken
     {
         [Column("LOGIN_USU")]

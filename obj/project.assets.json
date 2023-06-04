@@ -4637,19 +4637,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\rfontes\\.nuget\\packages\\": {}
+    "C:\\Users\\cotti\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj",
+      "projectUniqueName": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj",
       "projectName": "WebApiModulum",
-      "projectPath": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj",
-      "packagesPath": "C:\\Users\\rfontes\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\obj\\",
+      "projectPath": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj",
+      "packagesPath": "C:\\Users\\cotti\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\rfontes\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\cotti\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

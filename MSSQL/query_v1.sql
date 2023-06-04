@@ -1,4 +1,4 @@
-CREATE TABLE TBL_MODULUM_USUARIO
+CREATE TABLE TBL_USUARIO
 (
     ID_USU int primary key identity,
     LOGIN_USU varchar(50) not null,
@@ -18,7 +18,7 @@ CREATE TABLE TBL_MODULUM_USUARIO
     DT_ALTER_USU DATETIME
 );
 
-CREATE TABLE TBL_MODULUM_REFRESH_TOKEN
+CREATE TABLE TBL_REFRESH_TOKEN
 (
     LOGIN_USU varchar(50) not null,
     ID_TOKEN varchar(50) not null,
@@ -27,4 +27,4 @@ CREATE TABLE TBL_MODULUM_REFRESH_TOKEN
 	DATA_VALIDADE DATETIME
 );
 
--- INSERT INTO TBL_MODULUM_USUARIO VALUES ('RCF', 'Rodrigo Cotting Fontes',null,'cottingfontes@hotmail.com',null,'123456',null,null,'ADMIN',null,null,null,null,null,getdate())
+-- INSERT INTO TBL_USUARIO VALUES ('rcf', 'Rodrigo Cotting Fontes',null,'cottingfontes@hotmail.com',null,'123456',null,null,'ADMIN',null,null,null,null,null,getdate())

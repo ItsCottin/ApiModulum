@@ -17,24 +17,36 @@ public class LogContainer : ILogContainer
         this._imapper = imapper;
     }
 
-    public async Task<List<Log>> BuscarTodos()
+    public async Task<List<ModulumLog>> BuscarTodos()
     {
-        List<Log> logs = new List<Log>();
-        logs = await _dBContext.Log.ToListAsync();
+        List<ModulumLog> logs = new List<ModulumLog>();
+        logs = await _dBContext.ModulumLog.ToListAsync();
         if(logs == null)
         {
-            logs = new List<Log>();
+            logs = new List<ModulumLog>();
         }
         return logs;
     }
 
-    public async Task<List<Log>> Excluir(List<Log> logs)
+    public async Task<bool> Excluir(List<ModulumLog> logs)
     {
-
+        foreach (var item in logs)
+        {
+            _dBContext.ModulumLog.Remove(item);
+        }
+        return true;
     }
 
-    public async Task<Log> Consultar(int id)
+    public async Task<ModulumLog> Consultar(int id)
     {
-
+        var log = await this._dBContext.ModulumLog.FindAsync(id);
+        if (log != null)
+        {
+            return log;
+        }
+        else 
+        {
+            return new ModulumLog();
+        }
     }
 }
