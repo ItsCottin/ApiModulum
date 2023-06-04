@@ -16,6 +16,7 @@ using Serilog;
 using Swashbuckle.AspNetCore.ReDoc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
+using WebApiModulum.LogContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,7 @@ builder.Services.AddDbContext<ModulumContext>(options=>{
 });
 
 builder.Services.AddScoped<IUsuarioContainer, UsuarioContainer>();
+builder.Services.AddScoped<ILogContainer, LogContainer>();
 builder.Services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
 
 var automapper = new MapperConfiguration(item=> item.AddProfile

@@ -27,4 +27,4 @@ CREATE TABLE TBL_REFRESH_TOKEN
 	DATA_VALIDADE DATETIME
 );
 
--- INSERT INTO TBL_USUARIO VALUES ('RCF', 'Rodrigo Cotting Fontes',null,'cottingfontes@hotmail.com',null,'123456',null,null,'ADMIN',null,null,null,null,null,getdate(),'rcf')
+-- INSERT INTO TBL_USUARIO VALUES ('rcf', 'Rodrigo Cotting Fontes',null,'cottingfontes@hotmail.com',null,'123456',null,null,'ADMIN',null,null,null,null,null,getdate())

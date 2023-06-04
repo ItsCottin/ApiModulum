@@ -8,8 +8,6 @@ using Serilog;
 
 namespace WebApiModulum.Controllers;
 
-[RefreshTokenHeader]
-[Authorize(Roles = "ADMIN")]
 [ApiController]
 [Route("[controller]")]
 public class UsuarioController : ControllerBase
@@ -24,15 +22,17 @@ public class UsuarioController : ControllerBase
         this._logger = logger;
     }
 
+    [RefreshTokenHeader]
+    [Authorize]
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAllAsync()
     {
-        this._logger.LogInformation("|Log ||Testing");
-        Log.Information("Usuario: GetAll");
         var usuario = await this._iUsuarioContainer.GetAll();
         return Ok(usuario);
     }
 
+    [RefreshTokenHeader]
+    [Authorize]
     [HttpGet("Consultar/{id}")]
     public async Task<IActionResult> ConsultaUsuarioAsync(int id)
     {
@@ -40,6 +40,8 @@ public class UsuarioController : ControllerBase
         return Ok(usuario);
     }
 
+    [RefreshTokenHeader]
+    [Authorize]
     [HttpDelete("Excluir/{id}")]
     public async Task<IActionResult> ExcluirUsuarioAsync(int id)
     {
