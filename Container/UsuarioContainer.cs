@@ -40,22 +40,28 @@ public class UsuarioContainer : IUsuarioContainer
         }
     }
 
-    public async Task<bool> ExcluirUsuario(int id)
+    public async Task<DefaultResponse> ExcluirUsuario(int id)
     {
         var usuario = await _dBContext.Usuario.FindAsync(id);
         if (usuario != null)
         {
             this._dBContext.Remove(usuario);
             await this._dBContext.SaveChangesAsync();
-            return true;
+            return GetDefaultResponse("Sucesso", new List<Erro>());
         }
         else 
         {
-            return false;
+            return GetDefaultResponse("Erro", new List<Erro>()
+            {
+                new Erro() 
+                {
+                    codigo = "", detalhe = "Nenhum usuário encontrado com o id enviado"
+                }
+            });
         }
     }
 
-    public async Task<bool> IncluirUsuario(UsuarioEntity _usuario)
+    public async Task<DefaultResponse> IncluirUsuario(UsuarioEntity _usuario)
     {
         var usuario = this._dBContext.Usuario.FirstOrDefault(o => o.Id == _usuario.Id);
         if (usuario != null)
@@ -71,6 +77,15 @@ public class UsuarioContainer : IUsuarioContainer
             this._dBContext.Add(_usu);
             await this._dBContext.SaveChangesAsync();
         }
-        return true;
+        return GetDefaultResponse("Sucesso", new List<Erro>());
+    }
+
+    public DefaultResponse GetDefaultResponse(String status, List<Erro> erros)
+    {
+        return new DefaultResponse()
+        {
+            status = status,
+            erros = erros
+        };
     }
 }
