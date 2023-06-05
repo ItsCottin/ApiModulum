@@ -20,7 +20,7 @@ using WebApiModulum.LogContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -39,6 +39,7 @@ builder.Services.AddSwaggerGen(options =>
             }
         }
     );
+    options.OperationFilter<AddRequiredHeaderParameter>();
 });
 
 var _authkey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
@@ -106,6 +107,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj": {}
+    "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj": {
+    "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj",
+        "projectUniqueName": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj",
         "projectName": "WebApiModulum",
-        "projectPath": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\WebApiModulum.csproj",
-        "packagesPath": "C:\\Users\\cotti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cotti\\Documents\\_Dev\\WebApiModulum\\obj\\",
+        "projectPath": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\WebApiModulum.csproj",
+        "packagesPath": "C:\\Users\\rfontes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rfontes\\Documents\\_ Dev\\WebApiModulum\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\cotti\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\rfontes\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -55,6 +55,10 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.14, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",

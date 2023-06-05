@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApiModulum.Container;
 using WebApiModulum.Models;
 using WebApiModulum.Entity;
@@ -22,9 +24,19 @@ public class UsuarioController : ControllerBase
         this._logger = logger;
     }
 
+    /// <summary>
+    /// Busca Todos usuários registrados.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>A newly created TodoItem</returns>
+    /// <response code="200">Retorna todos os Usuarios em forma de Lista</response>
+    /// <response code="400">Quando ocorre erro por algum motivo</response>
     [RefreshTokenHeader]
     [Authorize]
     [HttpGet("GetAll")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> GetAllAsync()
     {
         var usuario = await this._iUsuarioContainer.GetAll();
@@ -34,25 +46,59 @@ public class UsuarioController : ControllerBase
     [RefreshTokenHeader]
     [Authorize]
     [HttpGet("Consultar/{id}")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Usuario))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> ConsultaUsuarioAsync(int id)
     {
         var usuario = await this._iUsuarioContainer.ConsultaUsuario(id);
         return Ok(usuario);
     }
 
+    /// <summary>
+    /// Deleta um usuário especifico.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [RefreshTokenHeader]
     [Authorize]
     [HttpDelete("Excluir/{id}")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> ExcluirUsuarioAsync(int id)
     {
-        var usuario = await this._iUsuarioContainer.ExcluirUsuario(id);
-        return Ok(false);
+        var response = await this._iUsuarioContainer.ExcluirUsuario(id);
+        return Ok(response);
     }
 
+
+    /// <summary>
+    /// Inclui usuário.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>A newly created TodoItem</returns>
+    /// <remarks>
+    /// Request Simples:
+    ///
+    ///     POST /Usuario/Incluir/
+    ///     {
+    ///         "nome": "string",
+    ///         "login": "string",
+    ///         "senha": "string",
+    ///         "email": "string"
+    ///     }
+    ///
+    /// </remarks>
+    /// <response code="200">Retorna todos os Usuarios em forma de Lista</response>
+    /// <response code="400">Quando ocorre erro por algum motivo</response> 
     [HttpPost("Incluir")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> IncluirUsuarioAsync([FromBody] UsuarioEntity _usuario)
     {
-        var usuario = await this._iUsuarioContainer.IncluirUsuario(_usuario);
-        return Ok(true);
+        var response = await this._iUsuarioContainer.IncluirUsuario(_usuario);
+        return Ok(response);
     }
 }

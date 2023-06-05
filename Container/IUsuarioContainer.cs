@@ -7,6 +7,6 @@ public interface IUsuarioContainer
 {
     Task<List<UsuarioEntity>> GetAll();
     Task<UsuarioEntity> ConsultaUsuario(int id);
-    Task<bool> ExcluirUsuario(int id);
-    Task<bool> IncluirUsuario(UsuarioEntity _usuario);
+    Task<DefaultResponse> ExcluirUsuario(int id);
+    Task<DefaultResponse> IncluirUsuario(UsuarioEntity _usuario);
 }
