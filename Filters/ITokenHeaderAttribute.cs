@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,17 +12,18 @@ using System.Security.Cryptography;
 
 namespace WebApiModulum.Filters;
 
-public class RefreshTokenHeaderAttribute : Attribute, IAuthorizationFilter
+// Class utilizada para validação dos parâmetros Header em endpoints de programados com a notação '[iTokenHeader]'
+public class ITokenHeaderAttribute : Attribute, IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        if (!context.HttpContext.Request.Headers.ContainsKey("refreshtoken"))
+        if (!context.HttpContext.Request.Headers.ContainsKey("iToken"))
         {
-            context.Result = new BadRequestObjectResult("refreshtoken header is required.");
+            context.Result = new BadRequestObjectResult("itoken header is required.");
             return;
         }
         var dbContext = (ModulumContext)context.HttpContext.RequestServices.GetService(typeof(ModulumContext));
-        var refreshtoken = context.HttpContext.Request.Headers["refreshtoken"].FirstOrDefault();
+        var iToken = context.HttpContext.Request.Headers["iToken"].FirstOrDefault();
         var usuarioId = GetUserIdFromJwt(context.HttpContext);
         if(usuarioId != null)
         {        
@@ -34,7 +36,7 @@ public class RefreshTokenHeaderAttribute : Attribute, IAuthorizationFilter
         {
             context.Result = new UnauthorizedResult();
         }
-        var responseValidate = ValidateItoken(usuarioId, refreshtoken, dbContext);
+        var responseValidate = ValidateItoken(usuarioId, iToken, dbContext);
 
         if (!responseValidate)
         {
@@ -71,9 +73,9 @@ public class RefreshTokenHeaderAttribute : Attribute, IAuthorizationFilter
         return username;
     }
 
-    private bool ValidateItoken(string usuarioId, string refreshToken, ModulumContext _dbContext)
+    private bool ValidateItoken(string usuarioId, string iToken, ModulumContext _dbContext)
     {
-        var response = _dbContext.RefreshToken.FirstOrDefault(item => item.loginUsu == usuarioId && item.refreshToken == refreshToken);
+        var response = _dbContext.IToken.FirstOrDefault(item => item.loginUsu == usuarioId && item.iToken == iToken);
         if(response != null)
         {
             int resultado = response.dateValidade.CompareTo(DateTime.Now);

@@ -1,5 +1,13 @@
+#pragma warning disable CS1591
 public class TokenResponse
 {
-    public string? jwttoken {get;set;}
-    public string? refreshtoken {get;set;}
+    /// <summary>
+    /// JWT Token de Autentificação
+    /// </summary>
+    public string? jwttoken { get; set; }
+
+    /// <summary>
+    /// iToken de Autentificação
+    /// </summary>
+    public string? iToken { get; set; }
 }

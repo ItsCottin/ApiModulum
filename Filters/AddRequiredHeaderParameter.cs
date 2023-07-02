@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Swashbuckle.AspNetCore.Swagger;
@@ -5,37 +6,36 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using WebApiModulum.Models;
 using Microsoft.OpenApi.Models;
 
-namespace WebApiModulum.Filters;
-public class AddRequiredHeaderParameter : IOperationFilter
+namespace WebApiModulum.Filters
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public class AddRequiredHeaderParameter : IOperationFilter
     {
-        List<Parameter> parameters = new List<Parameter>();
-        if (parameters == null)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            parameters = new List<Parameter>();
-        }
+            var requiredHeaderAttribute = context.MethodInfo.GetCustomAttributes(typeof(RequiredHeaderAttribute), false).FirstOrDefault() as RequiredHeaderAttribute;
+            if (requiredHeaderAttribute != null && requiredHeaderAttribute.IsRequired)
+            {
+                if (operation.Parameters == null)
+                {
+                    operation.Parameters = new List<OpenApiParameter>();
+                }
 
-        parameters.Add
-        (
-            new Parameter()
-            {
-                name = "Authorization",
-                @in = "header",
-                type = "string",
-                required = true
+                operation.Parameters.Add(new OpenApiParameter
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Schema = new OpenApiSchema { Type = "string" },
+                    Required = true
+                });
+
+                operation.Parameters.Add(new OpenApiParameter
+                {
+                    Name = "iToken",
+                    In = ParameterLocation.Header,
+                    Schema = new OpenApiSchema { Type = "string" },
+                    Required = true
+                });
             }
-        );
-        parameters.Add
-        (
-            new Parameter()
-            {
-                name = "refreshtoken",
-                @in = "header",
-                type = "string",
-                required = true
-            }
-        );
-            
+        }
     }
 }

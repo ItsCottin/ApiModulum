@@ -1,13 +1,14 @@
+#pragma warning disable CS1591
 using System.Security.Cryptography;
 using WebApiModulum.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApiModulum.Handler;
 
-public class RefreshTokenGenerator : IRefreshTokenGenerator
+public class ITokenGenerator : IITokenGenerator
 {
     private readonly ModulumContext dbContext;
-    public RefreshTokenGenerator(ModulumContext _dbContext)
+    public ITokenGenerator(ModulumContext _dbContext)
     {
         this.dbContext = _dbContext;
     }
@@ -22,26 +23,26 @@ public class RefreshTokenGenerator : IRefreshTokenGenerator
         using(var randomnumbergenerator = RandomNumberGenerator.Create())
         {
             randomnumbergenerator.GetBytes(randomnumber);
-            string refreshtoken = Convert.ToBase64String(randomnumber);
-            var token = await this.dbContext.RefreshToken.FirstOrDefaultAsync(item => item.loginUsu == username);
+            string iToken = Convert.ToBase64String(randomnumber);
+            var token = await this.dbContext.IToken.FirstOrDefaultAsync(item => item.loginUsu == username);
             if(token != null)
             {
-                token.refreshToken = refreshtoken;
+                token.iToken = iToken;
                 token.dateValidade = getDateValidade();
             }
             else
             {
-                this.dbContext.RefreshToken.Add(new RefreshToken()
+                this.dbContext.IToken.Add(new IToken()
                 {
                     loginUsu = username,
                     idToken = new Random().Next().ToString(),
-                    refreshToken = refreshtoken,
+                    iToken = iToken,
                     isActive = true,
                     dateValidade = getDateValidade()
                 });
             }
             await this.dbContext.SaveChangesAsync();
-            return refreshtoken;
+            return iToken;
         }
     }
 }

@@ -17,6 +17,7 @@ using Swashbuckle.AspNetCore.ReDoc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using WebApiModulum.LogContainer;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,13 +26,16 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
     options.SwaggerDoc
     ("v1",
         new OpenApiInfo
         {
-            Title = "Swagger Web API Modulum Documentacao",
+            Title = "Documentação Swagger Web API Modulum",
             Version = "v1",
-            Description = "Essa e a documentacao swagger da API Web Modulum utilizando swagger UI com interface do ReDoc",
+            Description = "Essa e a documentação swagger da API Web Modulum utilizando swagger UI com interface do ReDoc",
             Contact = new OpenApiContact
             {
                 Name = "Rodrigo Cotting Fontes",
@@ -67,7 +71,7 @@ builder.Services.AddDbContext<ModulumContext>(options=>{
 
 builder.Services.AddScoped<IUsuarioContainer, UsuarioContainer>();
 builder.Services.AddScoped<ILogContainer, LogContainer>();
-builder.Services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
+builder.Services.AddScoped<IITokenGenerator, ITokenGenerator>();
 
 var automapper = new MapperConfiguration(item=> item.AddProfile
     (
