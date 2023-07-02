@@ -1,8 +1,10 @@
+#pragma warning disable CS1591
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using WebApiModulum.Models;
 using WebApiModulum.Container;
 using WebApiModulum.Entity;
+using WebApiModulum.DTO;
 
 namespace WebApiModulum.LogContainer;
 
@@ -17,36 +19,40 @@ public class LogContainer : ILogContainer
         this._imapper = imapper;
     }
 
-    public async Task<List<ModulumLog>> BuscarTodos()
+    public async Task<List<ModelLog>> BuscarTodos()
     {
-        List<ModulumLog> logs = new List<ModulumLog>();
-        logs = await _dBContext.ModulumLog.ToListAsync();
+        List<ModelLog> logs = new List<ModelLog>();
+        logs = await _dBContext.ModelLog.ToListAsync();
         if(logs == null)
         {
-            logs = new List<ModulumLog>();
+            logs = new List<ModelLog>();
         }
         return logs;
     }
 
-    public async Task<bool> Excluir(List<ModulumLog> logs)
+    public async Task<bool> Excluir(List<ModelLogIdDTO> idlogs)
     {
-        foreach (var item in logs)
+        foreach (var idDto in idlogs)
         {
-            _dBContext.ModulumLog.Remove(item);
+            var log = _imapper.Map<ModelLog>(idDto);
+            _dBContext.ModelLog.Attach(log);
+            _dBContext.ModelLog.Remove(log);
         }
+
+        await _dBContext.SaveChangesAsync();
         return true;
     }
 
-    public async Task<ModulumLog> Consultar(int id)
+    public async Task<ModelLog> Consultar(int id)
     {
-        var log = await this._dBContext.ModulumLog.FindAsync(id);
+        var log = await this._dBContext.ModelLog.FindAsync(id);
         if (log != null)
         {
             return log;
         }
         else 
         {
-            return new ModulumLog();
+            return new ModelLog();
         }
     }
 }

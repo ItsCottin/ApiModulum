@@ -10,7 +10,7 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "constring": "Server=tcp:db_cottin.mssql.somee.com;Initial Catalog=db_cottin;Persist Security Info=False;User ID=itscottin_SQLLogin_1;Password=mj6tz6ynmp;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;"
+    "constring": "Server=tcp:cottin.database.windows.net,1433;Initial Catalog=cottin;Persist Security Info=False;User ID=masterrcf;Password=i1BREUu533;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   },
   "Serilog": {
     "MinimumLevel": {
@@ -21,7 +21,7 @@
         "Name": "MSSqlServer",
         "Args": {
           "connectionString":
-          "Server=tcp:db_cottin.mssql.somee.com;Initial Catalog=db_cottin;Persist Security Info=False;User ID=itscottin_SQLLogin_1;Password=mj6tz6ynmp;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;",
+          "Server=tcp:cottin.database.windows.net,1433;Initial Catalog=cottin;Persist Security Info=False;User ID=masterrcf;Password=i1BREUu533;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
           "tableName": "TBL_LOG",
           "autoCreateSqlTable": true
         }

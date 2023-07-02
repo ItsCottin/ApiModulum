@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
@@ -27,14 +28,14 @@ public class UsuarioController : ControllerBase
     /// <summary>
     /// Busca Todos usuários registrados.
     /// </summary>
-    /// <param name="id"></param>
     /// <returns>A newly created TodoItem</returns>
     /// <response code="200">Retorna todos os Usuarios em forma de Lista</response>
     /// <response code="400">Quando ocorre erro por algum motivo</response>
-    [RefreshTokenHeader]
+    [ITokenHeader]
     [Authorize]
     [HttpGet("GetAll")]
     [Produces("application/json")]
+    [RequiredHeader(IsRequired = true)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> GetAllAsync()
@@ -43,10 +44,17 @@ public class UsuarioController : ControllerBase
         return Ok(usuario);
     }
 
-    [RefreshTokenHeader]
+    /// <summary>
+    /// Realiza Consulta de Apenas um Usuario por Id
+    /// </summary>
+    /// <returns>A newly created TodoItem</returns>
+    /// <response code="200">Retorna um objeto do tipo Usuario</response>
+    /// <response code="400">Quando ocorre erro por algum motivo</response>
+    [ITokenHeader]
     [Authorize]
     [HttpGet("Consultar/{id}")]
     [Produces("application/json")]
+    [RequiredHeader(IsRequired = true)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Usuario))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> ConsultaUsuarioAsync(int id)
@@ -60,10 +68,11 @@ public class UsuarioController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [RefreshTokenHeader]
+    [ITokenHeader]
     [Authorize]
     [HttpDelete("Excluir/{id}")]
     [Produces("application/json")]
+    [RequiredHeader(IsRequired = true)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> ExcluirUsuarioAsync(int id)
@@ -94,6 +103,7 @@ public class UsuarioController : ControllerBase
     /// <response code="400">Quando ocorre erro por algum motivo</response> 
     [HttpPost("Incluir")]
     [Produces("application/json")]
+    [RequiredHeader(IsRequired = false)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> IncluirUsuarioAsync([FromBody] UsuarioEntity _usuario)

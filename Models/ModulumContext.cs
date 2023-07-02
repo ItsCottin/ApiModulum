@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,9 @@ public partial class ModulumContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; } = null!;
 
-    public virtual DbSet<ModulumLog> ModulumLog { get; set; } = null!;
+    public virtual DbSet<ModelLog> ModelLog { get; set; } = null!;
 
-    public virtual DbSet<RefreshToken> RefreshToken { get; set; } = null!;
+    public virtual DbSet<IToken> IToken { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -33,7 +34,7 @@ public partial class ModulumContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RefreshToken>(entity =>
+        modelBuilder.Entity<IToken>(entity =>
             {
                 entity.HasKey(e => e.loginUsu);
             });

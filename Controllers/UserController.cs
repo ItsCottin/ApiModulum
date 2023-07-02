@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using WebApiModulum.Container;
@@ -9,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using WebApiModulum.Handler;
+using WebApiModulum.Filters;
 
 namespace WebApiModulum.Controllers;
 
@@ -18,7 +20,7 @@ public class UserController : ControllerBase
 {
     private readonly ModulumContext _dbContext;
     private readonly JwtSettings jwtsettings;
-    private readonly IRefreshTokenGenerator refreshTokenGenerator;
+    private readonly IITokenGenerator iTokenGenerator;
 
     [NonAction]
     public DateTime getDateNow()
@@ -26,11 +28,11 @@ public class UserController : ControllerBase
         return DateTime.Now.AddHours(3).AddSeconds(20);     // Comentar essa linha antes de subir o fonte
         //return DateTime.Now.AddSeconds(20);
     }
-    public UserController(ModulumContext dbContext, IOptions<JwtSettings> options, IRefreshTokenGenerator refresh)
+    public UserController(ModulumContext dbContext, IOptions<JwtSettings> options, IITokenGenerator refresh)
     {
         this._dbContext = dbContext;
         this.jwtsettings = options.Value;
-        this.refreshTokenGenerator = refresh;
+        this.iTokenGenerator = refresh;
     }
 
     [NonAction]
@@ -50,11 +52,20 @@ public class UserController : ControllerBase
         return new TokenResponse()
         {
             jwttoken = jwttoken,
-            refreshtoken = await refreshTokenGenerator.GenerateToken(user)
+            iToken = await iTokenGenerator.GenerateToken(user)
         };
     }
 
+    /// <summary>
+    /// Autenticação do Usuário
+    /// </summary>
+    /// <returns></returns>
     [HttpPost("Authenticate")]
+    [Produces("application/json")]
+    [RequiredHeader(IsRequired = false)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TokenResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(DefaultResponse))]
     public async Task<IActionResult> Authenticate([FromBody]UserCred userCred)
     {
         var user = await this._dbContext.Usuario.FirstOrDefaultAsync(item=> item.Login == userCred.username && item.Senha == userCred.password);
@@ -79,14 +90,25 @@ public class UserController : ControllerBase
         var response = new TokenResponse()
         {
             jwttoken = finaltoken,
-            refreshtoken = await refreshTokenGenerator.GenerateToken(userCred.username)
+            iToken = await iTokenGenerator.GenerateToken(userCred.username)
         };
 
         return Ok(response);
     }
 
-    [HttpPost("RefreshToken")]
-    public async Task<IActionResult> RefreshToken([FromBody]TokenResponse tokenResponse)
+    /// <summary>
+    /// Refresh da expiração do iToken
+    /// </summary>
+    /// <returns></returns>
+    [ITokenHeader]
+    [Authorize]
+    [HttpPost("RefreshIToken")]
+    [Produces("application/json")]
+    [RequiredHeader(IsRequired = true)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TokenResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(DefaultResponse))]
+    public async Task<IActionResult> RefreshIToken([FromBody]TokenResponse tokenResponse)
     {
         var tokenhandler = new JwtSecurityTokenHandler();
         var tokenkey = Encoding.UTF8.GetBytes(this.jwtsettings.securitykey);
@@ -105,7 +127,7 @@ public class UserController : ControllerBase
             return Unauthorized();
         }
         var username = principal.Identity?.Name;
-        var user = await this._dbContext.RefreshToken.FirstOrDefaultAsync(item=> item.loginUsu == username && item.refreshToken == tokenResponse.refreshtoken);
+        var user = await this._dbContext.IToken.FirstOrDefaultAsync(item=> item.loginUsu == username && item.iToken == tokenResponse.iToken);
         if(user == null)
         {
             return Unauthorized();
