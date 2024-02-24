@@ -1,3 +1,8 @@
+/*
+    Autor: Rodrigo Cotting
+    Data: 23/08/2023
+    Descrição: Inicio da construção, criação das tabelas TBL_USUARIO e TBL_ITOKEN
+*/
 CREATE TABLE TBL_USUARIO
 (
     ID_USU int primary key identity,
