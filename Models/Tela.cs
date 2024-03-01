@@ -53,5 +53,10 @@ namespace WebApiModulum.Models
         [StringLength(50)]
         [Column("NOME_CAMPO_PK")]
         public string? NomeCampoPK { get; set; }
+
+        /// <summary>
+        /// Nome do campo primary key da tabela dinânamica
+        /// </summary>
+        public List<Relacao> relacoes { get; set; }  
     }
 }
