@@ -31,6 +31,6 @@ namespace WebApiModulum.Models
         /// <summary>
         /// Lista de cidades do Estado
         /// </summary>
-        public List<Cidade> cidades { get; set; }
+        public ICollection<Cidade> Cidades { get; set; }
     }
 }

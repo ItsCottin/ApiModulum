@@ -42,12 +42,12 @@ namespace WebApiModulum.Models
         /// <summary>
         /// Lista de contatos da Empresa
         /// </summary>
-        public List<Contato> contatos { get; set; }
+        public ICollection<Contato> Contatos { get; set; }
 
         /// <summary>
-        /// Locais vinculados na Empresa
+        /// Lista de Locais vinculados na Empresa
         /// </summary>
-        public List<Local> locais { get; set; }
+        public ICollection<Local> Locais { get; set; }
 
     }
 }

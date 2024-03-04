@@ -31,12 +31,12 @@ namespace WebApiModulum.Models
         /// <summary>
         /// Lista de distritos da Cidade
         /// </summary>
-        public List<Distrito> distritos { get; set; }
+        public ICollection<Distrito> Distritos { get; set; }
 
         /// <summary>
         /// Lista de Endereços na Cidade
         /// </summary>
-        public List<Endereco> enderecos { get; set; }
+        public ICollection<Endereco> Enderecos { get; set; }
     
     }
 }

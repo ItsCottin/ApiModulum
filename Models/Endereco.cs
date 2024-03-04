@@ -20,7 +20,7 @@ namespace WebApiModulum.Models
         /// Nome do endereço
         /// </summary>
         [Column("address")]
-        public string? endereço { get; set; }
+        public string? Endereço { get; set; }
 
         /// <summary>
         /// CEP do endereço
@@ -45,5 +45,15 @@ namespace WebApiModulum.Models
         /// </summary>
         [Column("ddd")]
         public string? Ddd { get; set; }
+
+        /// <summary>
+        /// Cidade vinculado no Endereço
+        /// </summary>
+        public Cidade Cidade { get; set; }
+
+        /// <summary>
+        /// Distrito vinculado no Endereço
+        /// </summary>
+        public Distrito Distrito { get; set; }
     }
 }

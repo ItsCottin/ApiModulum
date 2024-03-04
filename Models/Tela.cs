@@ -55,8 +55,13 @@ namespace WebApiModulum.Models
         public string? NomeCampoPK { get; set; }
 
         /// <summary>
-        /// Nome do campo primary key da tabela dinânamica
+        /// Aplicacao vinculada na Tela
         /// </summary>
-        public List<Relacao> relacoes { get; set; }  
+        public Aplicacao Aplicacao { get; set; }
+
+        /// <summary>
+        /// Lista de Relacoes vinculadas na Tela
+        /// </summary>
+        public ICollection<Relacao> Relacoes { get; set; }  
     }
 }

@@ -27,5 +27,10 @@ namespace WebApiModulum.Models
         /// </summary>
         [Column("TIPO_RELA")]
         public string? TipoRelacao { get; set; }
+
+        /// <summary>
+        /// Tela vinculada na Relação
+        /// </summary>
+        public Tela Tela { get; set; }
     }
 }

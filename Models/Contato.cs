@@ -37,7 +37,17 @@ namespace WebApiModulum.Models
         /// <summary>
         /// Lista de ramals
         /// </summary>
-        public List<Ramal> ramals { get; set; }
+        public ICollection<Ramal> Ramals { get; set; }
+
+        /// <summary>
+        /// Empresa vinculado no Contato
+        /// </summary>
+        public Empresa Empresa { get; set; }
+
+        /// <summary>
+        /// Usuario vinculado no Contato
+        /// </summary>
+        public Usuario Usuario { get; set; }
     }
 
 }

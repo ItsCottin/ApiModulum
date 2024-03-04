@@ -21,5 +21,10 @@ namespace WebApiModulum.Models
         /// </summary>
         [Column("NUMERO_RAMAL")]
         public int Numero { get; set; }
+
+        /// <summary>
+        /// Contato vinculado no Ramal
+        /// </summary>
+        public Contato Contato { get; set; }
     }
 }

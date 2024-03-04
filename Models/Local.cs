@@ -20,13 +20,13 @@ namespace WebApiModulum.Models
         /// Tipo do Local: 'Residencial' ou 'Comercial'
         /// </summary>
         [Column("TIPO_LOCAL")]
-        public string? tipoLocal { get; set; }
+        public string? TipoLocal { get; set; }
 
         /// <summary>
         /// Número do local
         /// </summary>
         [Column("NUMERO_LOC")]
-        public string? numero { get; set; }
+        public string? Numero { get; set; }
 
         /// <summary>
         /// Estado do local
@@ -38,19 +38,24 @@ namespace WebApiModulum.Models
         /// Cidade do local
         /// </summary>
         [Column("CIDADE_LOC")]
-        public string? cidade { get; set; }
+        public string? Cidade { get; set; }
 
         /// <summary>
         /// CEP do local
         /// </summary>
         [Column("CEP_LOC")]
-        public string? cep { get; set; }
+        public string? Cep { get; set; }
     
         /// <summary>
         /// Endereço do local
         /// </summary>
         [Column("ENDERECO_LOC")]
-        public string? endereco { get; set; }
+        public string? Endereco { get; set; }
+
+        /// <summary>
+        /// Empresa vinculado no Local
+        /// </summary>
+        public Empresa Empresa { get; set; }
 
     }
 }

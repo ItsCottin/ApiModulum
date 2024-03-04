@@ -124,5 +124,10 @@ namespace WebApiModulum.Models
         [Column("DT_ALTER_USU")]
         public DateTime DataAlter { get; set; }
 
+        /// <summary>
+        /// Lista de contato que o Usuário pode ter
+        /// </summary>
+        public ICollection<Contato> Contatos { get; set; }
+
     }
 }

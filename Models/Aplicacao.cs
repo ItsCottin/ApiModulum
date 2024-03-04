@@ -25,9 +25,9 @@ namespace WebApiModulum.Models
         public string? Nome { get; set; }
 
         /// <summary>
-        /// Telas vinculadas na Aplicação
+        /// Lista de Telas vinculadas na Aplicação
         /// </summary>
-        public List<Tela> telas { get; set; }
+        public ICollection<Tela> Telas { get; set; }
 
     }
 }
