@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\_Programacao\\WebApiModulum\\WebApiModulum.csproj": {}
+    "C:\\_Programacao\\Projetos\\WebApiModulum\\WebApiModulum\\WebApiModulum.csproj": {}
   },
   "projects": {
-    "C:\\_Programacao\\WebApiModulum\\WebApiModulum.csproj": {
+    "C:\\_Programacao\\Projetos\\WebApiModulum\\WebApiModulum\\WebApiModulum.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\_Programacao\\WebApiModulum\\WebApiModulum.csproj",
+        "projectUniqueName": "C:\\_Programacao\\Projetos\\WebApiModulum\\WebApiModulum\\WebApiModulum.csproj",
         "projectName": "WebApiModulum",
-        "projectPath": "C:\\_Programacao\\WebApiModulum\\WebApiModulum.csproj",
+        "projectPath": "C:\\_Programacao\\Projetos\\WebApiModulum\\WebApiModulum\\WebApiModulum.csproj",
         "packagesPath": "C:\\Users\\cotti\\.nuget\\packages\\",
-        "outputPath": "C:\\_Programacao\\WebApiModulum\\obj\\",
+        "outputPath": "C:\\_Programacao\\Projetos\\WebApiModulum\\WebApiModulum\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\cotti\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\cotti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,7 +51,7 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[11.0.1, )"
+              "version": "[13.0.1, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -59,7 +65,7 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.14, )"
+              "version": "[8.0.5, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -113,7 +119,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

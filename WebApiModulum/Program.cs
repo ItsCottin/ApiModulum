@@ -21,21 +21,23 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+// Add services to the container.
 
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath);
+    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    //var xmlPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), xmlFile);
+    //options.IncludeXmlComments(xmlPath);
     options.SwaggerDoc
     ("v1",
         new OpenApiInfo
         {
-            Title = "DocumentaÃ§Ã£o Swagger Web API Modulum",
+            Title = "Documentação Swagger Web API Modulum",
             Version = "v1",
-            Description = "Essa e a documentaÃ§Ã£o swagger da API Web Modulum utilizando swagger UI com interface do ReDoc",
+            Description = "Essa e a documentação swagger da API Web Modulum utilizando swagger UI com interface do ReDoc",
             Contact = new OpenApiContact
             {
                 Name = "Rodrigo Cotting Fontes",
@@ -65,7 +67,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddDbContext<ModulumContext>(options=>{
+builder.Services.AddDbContext<ModulumContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
 });
 
@@ -73,7 +75,7 @@ builder.Services.AddScoped<IUsuarioContainer, UsuarioContainer>();
 builder.Services.AddScoped<ILogContainer, LogContainer>();
 builder.Services.AddScoped<IITokenGenerator, ITokenGenerator>();
 
-var automapper = new MapperConfiguration(item=> item.AddProfile
+var automapper = new MapperConfiguration(item => item.AddProfile
     (
         new AutoMapperHandler()
     )
@@ -93,18 +95,23 @@ builder.Services.Configure<JwtSettings>(_jwtsettings);
 
 var app = builder.Build();
 
-app.UseSwagger();
-
-app.UseSwaggerUI(options =>
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Modulum");
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Modulum");
+    });
 
-app.UseReDoc(options =>
-{
-    options.DocumentTitle = "Swagger Web API Modulum Documentacao";
-    options.SpecUrl = "/swagger/v1/swagger.json";
-});
+    app.UseReDoc(options =>
+    {
+        options.DocumentTitle = "Swagger Web API Modulum Documentacao";
+        options.SpecUrl = "/swagger/v1/swagger.json";
+    });
+}
+
+
 
 app.UseHttpsRedirection();
 
