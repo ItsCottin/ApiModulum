@@ -1,0 +1,6 @@
+@ApiModulum_HostAddress = http://localhost:5072
+
+GET {{ApiModulum_HostAddress}}/User/GetAll/
+Accept: application/json
+
+###
