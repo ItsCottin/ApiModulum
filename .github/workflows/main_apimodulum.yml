@@ -54,4 +54,4 @@ jobs:
           app-name: 'apimodulum'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ABA0C952E61049F88FBB93015B226DE4 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B02F637862044FE08353D1AFF8C0D945 }}
