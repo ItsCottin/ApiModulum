@@ -96,8 +96,8 @@ builder.Services.Configure<JwtSettings>(_jwtsettings);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -109,7 +109,7 @@ if (app.Environment.IsDevelopment())
         options.DocumentTitle = "Swagger API Modulum Documentacao";
         options.SpecUrl = "/swagger/v1/swagger.json";
     });
-}
+//}
 
 app.UseHttpsRedirection();
 
